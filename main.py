@@ -1,10 +1,9 @@
 import os
 import json
 import uuid
-import hashlib
 import subprocess
 from datetime import datetime
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 import fitz  # PyMuPDF
 from pptx import Presentation
@@ -12,7 +11,11 @@ from fastapi import FastAPI, Request, UploadFile, File, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from openai import OpenAI
+import google.generativeai as genai
+
+# Ai model 
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+GEM_MODEL = genai.GenerativeModel("gemini-1.5-flash")
 
 # ----------------- CONFIG -----------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -25,7 +28,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(AUDIO_DIR, exist_ok=True)
 os.makedirs(DOC_DIR, exist_ok=True)
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+#client = (api_key=os.getenv("GEMINI_API_KEY"))
 
 app = FastAPI(title="Helektron Study Assistant")
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
@@ -217,12 +220,12 @@ You do NOT need to provide URLs, just clear, identifiable references.
 ---END MATERIAL---
 """
 
-def call_gpt(prompt: str) -> str:
-    resp = client.chat.completions.create(
-        model="gpt-4.1",
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return resp.choices[0].message.content.strip()
+def call_gemini(prompt: str) -> str:
+    try:
+        response = GEM_MODEL.generate_content(prompt)
+        return response.text.strip()
+    except Exception as e:
+        return f"[Gemini API Error: {e}]"
 
 # ----------------- ROUTES -----------------
 @app.get("/", response_class=HTMLResponse)
@@ -327,7 +330,7 @@ def generate_summary(request: Request, session_id: str):
         content = "No material uploaded yet."
     else:
         prompt = get_summary_prompt(text)
-        content = call_gpt(prompt)
+        content = call_gemini(prompt)
 
     return templates.TemplateResponse(
         "fragments/summary.html",
@@ -341,7 +344,7 @@ def generate_keyterms(request: Request, session_id: str):
         content = "No material uploaded yet."
     else:
         prompt = get_keyterms_prompt(text)
-        content = call_gpt(prompt)
+        content = call_gemini(prompt)
 
     return templates.TemplateResponse(
         "fragments/keyterms.html",
@@ -355,7 +358,7 @@ def generate_questions_view(request: Request, session_id: str):
         content = "No material uploaded yet."
     else:
         prompt = get_questions_prompt(text)
-        content = call_gpt(prompt)
+        content = call_gemini(prompt)
 
     return templates.TemplateResponse(
         "fragments/questions.html",
@@ -369,10 +372,11 @@ def generate_resources_view(request: Request, session_id: str):
         content = "No material uploaded yet."
     else:
         prompt = get_resources_prompt(text)
-        content = call_gpt(prompt)
+        content = call_gemini(prompt)
 
     return templates.TemplateResponse(
         "fragments/resources.html",
         {"request": request, "content": content},
     )
+
 

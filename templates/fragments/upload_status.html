@@ -1,0 +1,28 @@
+<div>
+    <div id="materials-list">
+        {% if uploads %}
+            <ul>
+                {% for item in uploads %}
+                    <li>
+                        {{ item.filename }} —
+                        <em>{{ item.type }}</em>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <em>No materials uploaded yet.</em>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Store session_id safely outside JavaScript -->
+<input type="hidden" id="session_hidden" value="{{ session_id }}">
+
+<script>
+    const sid = document.getElementById("session_hidden").value;
+
+    if (sid) {
+        setSessionId(sid);
+    }
+</script>
+
