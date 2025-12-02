@@ -116,10 +116,9 @@ function showTranscriptionProgress() {
 function showViewTranscriptButton() {
     recordStatus.innerHTML = `
         <div class="transcript-ready">
-            <span class="success-icon">✅</span>
             <span>Transcription complete!</span>
             <button class="view-transcript-btn" onclick="openTranscriptModal()">
-                📄 View Transcript
+                View Transcript
             </button>
         </div>
     `;
@@ -151,10 +150,10 @@ function openTranscriptModal() {
             </div>
             <div class="modal-footer">
                 <button class="btn-download" onclick="downloadTranscript()">
-                    ⬇️ Download as .txt
+                    Download as .txt
                 </button>
                 <button class="btn-copy" onclick="copyTranscript()">
-                    📋 Copy to Clipboard
+                    Copy to Clipboard
                 </button>
                 <button class="btn-close" onclick="closeTranscriptModal()">
                     Close
