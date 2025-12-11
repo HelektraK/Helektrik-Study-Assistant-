@@ -13,7 +13,8 @@
         <h2>1. Upload Materials</h2>
 
         <div class="upload-box">
-            <p><strong>Upload files:</strong> .txt, .pdf, .pptx, .mp4, .m4a</p>
+            <p><strong>Upload files:</strong> .txt, .pdf, .pptx, .mp4, .m4a, .wav, .webm</p>
+            <p class="file-limits">Max file size: 50MB</p>
 
             <form
                 hx-post="/upload"
@@ -22,7 +23,7 @@
                 hx-indicator="#upload-loading"
                 enctype="multipart/form-data">
 
-                <input type="file" name="file" required>
+                <input type="file" name="file" required accept=".txt,.pdf,.pptx,.mp4,.m4a,.wav,.webm">
                 <input type="hidden" name="session_id" id="session_id_input">
                 <br><br>
                 <button class="primary" type="submit">Upload</button>
@@ -36,10 +37,10 @@
         </div>
 
         <div id="upload-loading" class="htmx-indicator">
-            Uploading/processing material...
+            <div class="spinner"></div>
+            <p>Uploading/processing...</p>
         </div>
 
-        <!-- This gets updated by upload_status.html -->
         <div id="materials-panel">
             <em>No materials uploaded yet.</em>
         </div>
@@ -50,53 +51,27 @@
     <div class="card">
         <h2>2. Generate Study Material</h2>
 
-        <p style="font-size:13px; color:#555;">Choose what you want the AI to generate.</p>
+        <p style="font-size:13px; color:#555;">Choose what you want the AI to generate (powered by RAG).</p>
 
         <div id="study-buttons" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-            <button class="study-btn"
-                    id="btn-summary"
-                    disabled
-                    hx-get=""
-                    hx-target="#results-panel"
-                    hx-indicator="#generate-loading">
+            <button class="study-btn" id="btn-summary" disabled hx-get="" hx-target="#results-panel" hx-indicator="#generate-loading">
                 Summary
             </button>
-
-            <button class="study-btn"
-                    id="btn-keyterms"
-                    disabled
-                    hx-get=""
-                    hx-target="#results-panel"
-                    hx-indicator="#generate-loading">
+            <button class="study-btn" id="btn-keyterms" disabled hx-get="" hx-target="#results-panel" hx-indicator="#generate-loading">
                 Key Terms
             </button>
-
-            <button class="study-btn"
-                    id="btn-questions"
-                    disabled
-                    hx-get=""
-                    hx-target="#results-panel"
-                    hx-indicator="#generate-loading">
+            <button class="study-btn" id="btn-questions" disabled hx-get="" hx-target="#results-panel" hx-indicator="#generate-loading">
                 Practice Questions
             </button>
-
-            <button class="study-btn"
-                    id="btn-resources"
-                    disabled
-                    hx-get=""
-                    hx-target="#results-panel"
-                    hx-indicator="#generate-loading">
+            <button class="study-btn" id="btn-resources" disabled hx-get="" hx-target="#results-panel" hx-indicator="#generate-loading">
                 External Resources
             </button>
         </div>
 
-        <!-- Loading indicator with progress bar -->
         <div id="generate-loading" class="htmx-indicator">
             <div class="spinner"></div>
-            <p class="loading-text">Generating study material...</p>
-            <div class="progress-bar">
-                <div class="progress-bar-fill"></div>
-            </div>
+            <p class="loading-text">Generating...</p>
+            <div class="progress-bar"><div class="progress-bar-fill"></div></div>
         </div>
 
         <div id="results-panel">
