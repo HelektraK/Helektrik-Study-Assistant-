@@ -94,7 +94,7 @@ OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:7b")
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 
-app = FastAPI(title="Helektron Study Assistant", version="2.0.0")
+app = FastAPI(title="Helektrik Study Assistant", version="2.0.0")
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
@@ -113,7 +113,7 @@ def load_sessions() -> Dict[str, Any]:
             return {}
 
 def save_sessions(sessions: Dict[str, Any]) -> None:
-    """Save sessions to JSON file (KG6 - Persistent Data)"""
+    """Save sessions to JSON file (KG6)"""
     with open(SESSIONS_PATH, "w") as f:
         json.dump(sessions, f, indent=2)
 

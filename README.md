@@ -1,4 +1,4 @@
-# Helektrik Study Assistant
+# Helektron Study Assistant
 
 A web application for uploading lecture materials (PDF, slides, audio, notes) and generating AI-powered study content including summaries, key terms, practice questions, and resource recommendations using RAG (Retrieval-Augmented Generation).
 
@@ -267,5 +267,3 @@ Install FFmpeg for your operating system (see Installation section).
 - **Pydantic** - Data validation
 - **PyMuPDF** - PDF text extraction
 - **python-pptx** - PowerPoint text extraction
-
-

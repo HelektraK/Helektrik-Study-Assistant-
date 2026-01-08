@@ -1,19 +1,19 @@
+# FastAPI & Web
 fastapi
 uvicorn
 jinja2
 python-multipart
-openai
-faiss-cpu
-langchain
-langchain-community
-langchain-huggingface
-huggingface-hub
-sentence-transformers
-python-dotenv
-requests
+
+# Data & Validation
 pydantic
+python-dotenv
+
+# HTTP Requests (for Ollama API)
+requests
+
+# RAG cosine similarity
 numpy
-tqdm
-transformers
-PyMuPDF
-python-pptx
+
+# Document Processing
+PyMuPDF          # PDF extraction 
+python-pptx      # PowerPoint extraction
